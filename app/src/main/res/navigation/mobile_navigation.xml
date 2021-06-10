@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.sucker777.clipboardsync.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/nav_setting"
+        android:name="com.sucker777.clipboardsync.ui.setting.SettingFragment"
+        android:label="@string/menu_setting" />
+    <fragment
+        android:id="@+id/nav_uuid"
+        android:name="com.sucker777.clipboardsync.ui.uuid.UUIDFragment"
+        android:label="@string/menu_uuid"
+        tools:layout="@layout/fragment_uuid" />
+
+</navigation>

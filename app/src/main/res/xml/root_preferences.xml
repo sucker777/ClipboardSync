@@ -1,0 +1,44 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/privacy_header">
+
+        <SwitchPreferenceCompat
+            app:disableDependentsState="true"
+            app:key="privacy_show_uuid_in_header"
+            app:title="@string/privacy_show_uuid_in_header"
+            app:defaultValue="false"/>
+
+        <SwitchPreferenceCompat
+            app:dependency="privacy_show_uuid_in_header"
+            app:key="privacy_uuid_need_auth"
+            app:title="@string/privacy_uuid_need_auth" />
+
+        <SwitchPreferenceCompat
+            app:dependency="privacy_uuid_need_auth"
+            app:key="privacy_uuid_need_auth_fingerprint"
+            app:summaryOff="@string/privacy_uuid_need_auth_fingerprint_off"
+            app:summaryOn="@string/privacy_uuid_need_auth_fingerprint_on"
+            app:title="@string/privacy_uuid_need_auth_fingerprint" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/delete_header">
+        <Preference
+            android:key="delete_uuid"
+            android:title="@string/delete_uuid">
+            <intent android:action="com.sucker777.clipboardsync.DeleteUUID"/>
+        </Preference>
+        <Preference
+            android:key="delete_history"
+            android:title="@string/delete_history">
+            <intent android:action="com.sucker777.clipboardsync.DeleteHistory"/>
+        </Preference>
+        <Preference
+            android:key="delete_all"
+            android:title="@string/delete_all">
+            <intent android:action="com.sucker777.clipboardsync.DeleteAll"/>
+        </Preference>
+    </PreferenceCategory>
+
+</PreferenceScreen>

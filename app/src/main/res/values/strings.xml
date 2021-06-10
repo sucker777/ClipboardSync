@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Clipboard Sync</string>
+    <string name="title_activity_menu">Menu</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Clipboard Sync</string>
+    <string name="nav_header_subtitle">識別碼已隱藏</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">主要</string>
+    <string name="menu_setting">設定</string>
+    <string name="menu_uuid">識別碼</string>
+    <string name="title_activity_side_menu">SideMenu</string>
+
+    <!-- Preference Titles -->
+    <string name="privacy_header">隱私</string>
+    <string name="delete_header">清除資料</string>
+
+    <!-- Sync Preferences -->
+    <string name="privacy_show_uuid_in_header">在首頁菜單顯示識別碼(需要重啟)</string>
+    <string name="privacy_uuid_need_auth">顯示識別碼是否需要安全認證</string>
+    <string name="privacy_uuid_need_auth_fingerprint">採用指紋作為認證方式</string>
+    <string name="privacy_uuid_need_auth_fingerprint_on">採用指紋作為安全認證之方式</string>
+    <string name="privacy_uuid_need_auth_fingerprint_off">採用密碼作為安全認證之方式</string>
+
+    <!-- Delete Preferences -->
+    <string name="delete_uuid">清除本機識別碼</string>
+    <string name="delete_history">清除同步歷史記錄</string>
+    <string name="delete_all">清除全部資料</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_scan">ScanActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
+
+</resources>
