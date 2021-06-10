@@ -1,0 +1,28 @@
+com/sucker777/clipboardsync/ui/home/HomeViewModel.java
+ com.sucker777.clipboardsync.ui.home.HomeViewModel
+com/sucker777/clipboardsync/BuildConfig.java
+ com.sucker777.clipboardsync.BuildConfig
+com/sucker777/clipboardsync/ui/setting/SettingFragment.java
+ com.sucker777.clipboardsync.ui.setting.SettingFragment
+com/sucker777/clipboardsync/Welcome.java
+ com.sucker777.clipboardsync.Welcome
+com/sucker777/clipboardsync/ScanActivity.java
+ com.sucker777.clipboardsync.ScanActivity
+com/sucker777/clipboardsync/ui/uuid/UUIDViewModel.java
+ com.sucker777.clipboardsync.ui.uuid.UUIDViewModel
+com/sucker777/clipboardsync/ui/home/HomeFragment.java
+ com.sucker777.clipboardsync.ui.home.HomeFragment
+ com.sucker777.clipboardsync.ui.home.HomeFragment$1
+com/sucker777/clipboardsync/ui/uuid/UUIDFragment.java
+ com.sucker777.clipboardsync.ui.uuid.UUIDFragment
+com/sucker777/clipboardsync/MainActivity.java
+ com.sucker777.clipboardsync.ClipboardListener
+ com.sucker777.clipboardsync.MainActivity
+com/sucker777/clipboardsync/SideMenu.java
+ com.sucker777.clipboardsync.SideMenu
+ com.sucker777.clipboardsync.SideMenu$1
+ com.sucker777.clipboardsync.SideMenu$2
+com/sucker777/clipboardsync/WebRtcClient.java
+ com.sucker777.clipboardsync.WebRtcClient
+ com.sucker777.clipboardsync.WebRtcClient$Peer
+ com.sucker777.clipboardsync.WebRtcClient$WebRtcListener
