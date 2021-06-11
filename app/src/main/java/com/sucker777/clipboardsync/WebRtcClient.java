@@ -87,6 +87,7 @@ public class WebRtcClient {
         mContext = context;
 
         SharedPreferences pref = mContext.getSharedPreferences("data", mContext.MODE_PRIVATE);
+        pref.edit().putString("peers_amount", "0").commit();
         String uuid = pref.getString("uuid", "").toUpperCase();
 
         try {
@@ -170,6 +171,7 @@ public class WebRtcClient {
     private Peer addPeer(String id) {
         Peer peer = new Peer(id);
         peers.put(id, peer);
+        webRtcListener.onPeerAmountChange();
         return peer;
     }
 
@@ -177,6 +179,11 @@ public class WebRtcClient {
         Peer peer = peers.get(id);
         peer.release();
         peers.remove(peer.id);
+        webRtcListener.onPeerAmountChange();
+    }
+
+    public int getPeerAmount() {
+        return peers.size();
     }
 
     public void onReceiveInit(String fromUid) {
@@ -405,5 +412,6 @@ public class WebRtcClient {
 
     public interface WebRtcListener {
         void onReceiveDataChannelMessage(String message);
+        void onPeerAmountChange();
     }
 }

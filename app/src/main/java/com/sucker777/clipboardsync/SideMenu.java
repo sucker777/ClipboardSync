@@ -55,13 +55,25 @@ public class SideMenu extends AppCompatActivity implements WebRtcClient.WebRtcLi
                     data = item.getText();
                     Toast.makeText(headerView.getContext().getApplicationContext(), "已向其他裝置發送同步要求", Toast.LENGTH_SHORT).show();
                     JSONObject waitforSent = new JSONObject();
+                    ContentValues values = new ContentValues();
                     try {
-                        waitforSent.put("timestamp", System.currentTimeMillis());
+                        long timestamp = System.currentTimeMillis();
+                        values.put("timestamp", timestamp);
+                        values.put("data", data.toString());
+                        waitforSent.put("timestamp", timestamp);
                         waitforSent.put("payload", data.toString());
-                    } catch (JSONException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                     rtcClient.sendDataMessageToAllPeer(waitforSent.toString());
+                    sql.insert(values);
+                    NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().getFragments().get(0);
+                    try {
+                        HomeFragment home = (HomeFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
+                        home.updateHistory();
+                    }catch(Exception e) {
+                        e.printStackTrace();
+                    }
                 }else {
                     Toast.makeText(headerView.getContext().getApplicationContext(), "剪貼簿中沒有可以同步的資料", Toast.LENGTH_SHORT).show();
                 }
@@ -117,6 +129,12 @@ public class SideMenu extends AppCompatActivity implements WebRtcClient.WebRtcLi
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        rtcClient.sendInitMessage();
+    }
+
+    @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
@@ -129,8 +147,6 @@ public class SideMenu extends AppCompatActivity implements WebRtcClient.WebRtcLi
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(headerView.getContext(), message, Toast.LENGTH_SHORT).show();
-
                 JSONObject receive = new JSONObject();
                 try {
                     receive = new JSONObject(message);
@@ -146,15 +162,43 @@ public class SideMenu extends AppCompatActivity implements WebRtcClient.WebRtcLi
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                sql.insert(values);
+                if(!payload.equals("")) {
+                    sql.insert(values);
+                }else {
+                    Toast.makeText(headerView.getContext(), "接收到錯誤的資料，請檢查App是否為最新版本", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-                NavHostFragment  navHostFragment = (NavHostFragment) getSupportFragmentManager().getFragments().get(0);
-                HomeFragment home = (HomeFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
-                home.updateHistory();
+                NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().getFragments().get(0);
+                try {
+                    HomeFragment home = (HomeFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
+                    home.updateHistory();
+                }catch(Exception e) {
+                    e.printStackTrace();
+                }
 
                 if(!payload.equals("")) {
                     ClipData clip = ClipData.newPlainText("message", payload);
                     mClip.setPrimaryClip(clip);
+                    Toast.makeText(headerView.getContext(), "剪貼簿已更新", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onPeerAmountChange() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                SharedPreferences pref = getSharedPreferences("data", MODE_PRIVATE);
+                pref.edit().putString("peers_amount", Integer.toString(rtcClient.getPeerAmount())).commit();
+                NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().getFragments().get(0);
+                try {
+                    HomeFragment home = (HomeFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
+                    home.updatePeersAmount();
+                }catch(Exception e) {
+                    e.printStackTrace();
                 }
             }
         });

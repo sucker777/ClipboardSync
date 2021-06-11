@@ -31,12 +31,10 @@
         <Preference
             android:key="delete_history"
             android:title="@string/delete_history">
-            <intent android:action="com.sucker777.clipboardsync.DeleteHistory"/>
         </Preference>
         <Preference
             android:key="delete_all"
             android:title="@string/delete_all">
-            <intent android:action="com.sucker777.clipboardsync.DeleteAll"/>
         </Preference>
     </PreferenceCategory>
 

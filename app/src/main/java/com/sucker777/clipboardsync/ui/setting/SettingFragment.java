@@ -11,6 +11,7 @@ import androidx.preference.PreferenceManager;
 
 import com.sucker777.clipboardsync.MainActivity;
 import com.sucker777.clipboardsync.R;
+import com.sucker777.clipboardsync.SQLQuery;
 
 public class SettingFragment extends PreferenceFragmentCompat {
 
@@ -24,6 +25,8 @@ public class SettingFragment extends PreferenceFragmentCompat {
 
         Context mContext = this.getActivity();
 
+        SQLQuery sql = new SQLQuery(mContext);
+
         deleteUUID.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -31,6 +34,14 @@ public class SettingFragment extends PreferenceFragmentCompat {
                 pref.edit().clear().commit();
 
                 restart(mContext);
+                return true;
+            }
+        });
+
+        deleteHistory.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                sql.deleteDB();
                 return true;
             }
         });
@@ -45,6 +56,8 @@ public class SettingFragment extends PreferenceFragmentCompat {
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.clear();
                 editor.commit();
+
+                sql.deleteDB();
 
                 restart(mContext);
                 return true;

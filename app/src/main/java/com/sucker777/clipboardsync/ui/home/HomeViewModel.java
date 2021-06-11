@@ -1,19 +1,25 @@
 package com.sucker777.clipboardsync.ui.home;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class HomeViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    private MutableLiveData<Integer> Peers_Amount;
 
     public HomeViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        Peers_Amount = new MutableLiveData<>();
+        Peers_Amount.setValue(-1);
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public void setPeers_Amount(Integer amount) {
+        this.Peers_Amount.setValue(amount);
+    }
+
+    public LiveData<Integer> getPeers_Amount() {
+        return Peers_Amount;
     }
 }

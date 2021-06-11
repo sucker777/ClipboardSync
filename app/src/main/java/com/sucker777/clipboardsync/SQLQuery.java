@@ -9,10 +9,12 @@ public class SQLQuery {
 
     private final static String TABLE_NAME = "history";
 
+    private SQL sql;
     private SQLiteDatabase db;
 
     public SQLQuery(Context context) {
-        db = new SQL(context, "database").getWritableDatabase();
+        sql = new SQL(context, "database");
+        db = sql.getWritableDatabase();
     }
 
     public void insert(ContentValues values) {
@@ -26,6 +28,7 @@ public class SQLQuery {
 
     public Cursor getHistory() {
         String[] projection = {
+                "timestamp",
                 "data"
         };
 
@@ -43,6 +46,11 @@ public class SQLQuery {
         );
 
         return cursor;
+    }
+
+    public void deleteDB() {
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME);
+        sql.onCreate(db);
     }
 
     public int getHistoryCount() {

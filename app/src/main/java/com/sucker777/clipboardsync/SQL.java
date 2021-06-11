@@ -40,7 +40,6 @@ public class SQL extends SQLiteOpenHelper {
     @Override
     public void onOpen(SQLiteDatabase db) {
         super.onOpen(db);
-        // TODO 每次成功打開數據庫後首先被執行
     }
 
     @Override

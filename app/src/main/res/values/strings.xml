@@ -14,7 +14,10 @@
     <string name="title_activity_side_menu">SideMenu</string>
 
     <!-- Home Fragment Strings -->
+    <string name="menu_home_connecting">等待裝置上線...</string>
     <string name="menu_home_auto_sync">自動同步</string>
+    <string name="menu_home_history_title">同步記錄</string>
+    <string name="menu_home_history_copy">複製</string>
 
     <!-- Preference Titles -->
     <string name="privacy_header">隱私</string>
