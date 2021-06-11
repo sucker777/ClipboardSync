@@ -27,7 +27,6 @@
         <Preference
             android:key="delete_uuid"
             android:title="@string/delete_uuid">
-            <intent android:action="com.sucker777.clipboardsync.DeleteUUID"/>
         </Preference>
         <Preference
             android:key="delete_history"

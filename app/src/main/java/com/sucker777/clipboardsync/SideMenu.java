@@ -2,6 +2,7 @@ package com.sucker777.clipboardsync;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.ContentValues;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -10,9 +11,11 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.sucker777.clipboardsync.ui.home.HomeFragment;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -20,11 +23,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.preference.PreferenceManager;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.webrtc.PeerConnectionFactory;
 
 public class SideMenu extends AppCompatActivity implements WebRtcClient.WebRtcListener {
 
     private WebRtcClient rtcClient;
+    private SQLQuery sql;
+
     private View headerView;
     private ClipboardManager mClip;
 
@@ -47,7 +54,14 @@ public class SideMenu extends AppCompatActivity implements WebRtcClient.WebRtcLi
                     ClipData.Item item = mClip.getPrimaryClip().getItemAt(0);
                     data = item.getText();
                     Toast.makeText(headerView.getContext().getApplicationContext(), "已向其他裝置發送同步要求", Toast.LENGTH_SHORT).show();
-                    rtcClient.sendDataMessageToAllPeer(data.toString());
+                    JSONObject waitforSent = new JSONObject();
+                    try {
+                        waitforSent.put("timestamp", System.currentTimeMillis());
+                        waitforSent.put("payload", data.toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    rtcClient.sendDataMessageToAllPeer(waitforSent.toString());
                 }else {
                     Toast.makeText(headerView.getContext().getApplicationContext(), "剪貼簿中沒有可以同步的資料", Toast.LENGTH_SHORT).show();
                 }
@@ -74,6 +88,10 @@ public class SideMenu extends AppCompatActivity implements WebRtcClient.WebRtcLi
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        /* Start SQLite Implementation */
+        sql = new SQLQuery(headerView.getContext());
+        /* End SQLite Implementation */
 
         /* Start WebRTC Implmentation */
         PeerConnectionFactory.initialize(PeerConnectionFactory
@@ -112,8 +130,32 @@ public class SideMenu extends AppCompatActivity implements WebRtcClient.WebRtcLi
             @Override
             public void run() {
                 Toast.makeText(headerView.getContext(), message, Toast.LENGTH_SHORT).show();
-                ClipData clip = ClipData.newPlainText("message", message);
-                mClip.setPrimaryClip(clip);
+
+                JSONObject receive = new JSONObject();
+                try {
+                    receive = new JSONObject(message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                ContentValues values = new ContentValues();
+                String payload = "";
+                try {
+                    values.put("timestamp", receive.getString("timestamp"));
+                    payload = receive.getString("payload");
+                    values.put("data", payload);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                sql.insert(values);
+
+                NavHostFragment  navHostFragment = (NavHostFragment) getSupportFragmentManager().getFragments().get(0);
+                HomeFragment home = (HomeFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
+                home.updateHistory();
+
+                if(!payload.equals("")) {
+                    ClipData clip = ClipData.newPlainText("message", payload);
+                    mClip.setPrimaryClip(clip);
+                }
             }
         });
     }

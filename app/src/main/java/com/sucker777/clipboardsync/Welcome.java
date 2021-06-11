@@ -27,6 +27,11 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
     }
 
     @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.old_user:
@@ -36,7 +41,7 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
                         .setPrompt("請將二維碼對準框線")
                         .setCameraId(0)
                         .setBeepEnabled(false)
-                        .setCaptureActivity(ScanActivity.class)//设置扫码界面为自定义样式
+                        .setCaptureActivity(ScanActivity.class)
                         .initiateScan();
                 break;
             case R.id.new_user:
@@ -54,7 +59,7 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (result != null) {
+        if (result.getRawBytes() != null) {
             Log.v("WelcomeTEST", "QRCODE_SUCCESS");
             String CODE_RESULT = result.getContents();
             Pattern QRCODE_Pattern = Pattern.compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$");

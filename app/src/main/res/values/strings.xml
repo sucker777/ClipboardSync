@@ -13,6 +13,9 @@
     <string name="menu_uuid">識別碼</string>
     <string name="title_activity_side_menu">SideMenu</string>
 
+    <!-- Home Fragment Strings -->
+    <string name="menu_home_auto_sync">自動同步</string>
+
     <!-- Preference Titles -->
     <string name="privacy_header">隱私</string>
     <string name="delete_header">清除資料</string>
