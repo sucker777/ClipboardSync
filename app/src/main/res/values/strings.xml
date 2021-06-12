@@ -8,7 +8,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">主要</string>
+    <string name="menu_home">首頁</string>
     <string name="menu_setting">設定</string>
     <string name="menu_uuid">識別碼</string>
     <string name="title_activity_side_menu">SideMenu</string>
